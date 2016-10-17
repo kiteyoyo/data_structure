@@ -14,7 +14,7 @@
 
 #define STACK_SIZE 100
 struct direction {
-	int vert, horiz;
+	int horiz, vert;
 };
 struct element {
 	int row, col, dir;
@@ -41,8 +41,8 @@ void path(int row_size, int col_size, int *maze) {
 		col=position.col;
 		dir=position.dir;
 		while (dir<8 && !found) {
-			next_row=row+move[dir].horiz;
-			next_col=col+move[dir].vert;
+			next_row=row+move[dir].vert;
+			next_col=col+move[dir].horiz;
 			if (next_row==row_size-1 && next_col==col_size-1)
 				found=true;
 			else if (next_row>-1 && next_row<row_size &&
