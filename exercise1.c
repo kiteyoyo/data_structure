@@ -44,7 +44,7 @@ void print_D(bool is_char, int data, D *d, int *offset) {
 	if (is_char)
 		printf("%c", map[data]);
 	else
-		printf("%d", data);
+		printf("%d ", data);
 	return;
 }
 void postfix(char *exp, D *d, int *offset)
