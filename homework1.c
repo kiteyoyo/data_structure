@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <stdbool.h>
 #include <string.h>
 
@@ -101,14 +102,61 @@ void path(int row_size, int col_size, int *maze) {
 		printf("The maze does not have a path\n");
 	free (mark);
 }
-int main() {
-	int row, col, i, j;
+int main(int argc, char *argv[]) {
+	int row, col, i, j, errflg=0;
 	int *maze;
-	scanf("%d %d", &row, &col);
-	maze=(int *)malloc(row*col*sizeof(int));
-	for (i=0;i<row;++i) {
-		for (j=0;j<col;++j)
-			scanf("%d", &maze[i*col+j]);
+	char c, *ifile;
+	FILE *fPtr;
+	bool inter=false, filein=false;
+	extern char *optarg;
+	extern int optind, optopt;
+	while ((c=getopt(argc, argv, ":if:"))!=-1) {
+		switch (c) {
+		case 'i':
+			if (filein)
+				errflg++;
+			inter=true;
+			break;
+		case 'f':
+			if (inter)
+				errflg++;
+			filein=true;
+			ifile=optarg;
+			break;
+		case ':':
+			fprintf(stderr, "Option -%c requires an operand\n", optopt);
+			errflg++;
+			break;
+		case '?':
+			fprintf(stderr, "Unrecognized option: -%c\n", optopt);
+			errflg++;
+		}
+	}
+	if (errflg) {
+		fprintf(stderr, "usage: . . . ");
+		exit(2);
+	}
+	if (inter) {
+		scanf("%d %d", &row, &col);
+		maze=(int *)malloc(row*col*sizeof(int));
+		for (i=0;i<row;++i) {
+			for (j=0;j<col;++j)
+				scanf("%d", &maze[i*col+j]);
+		}
+	}
+	else {
+		fPtr=fopen(ifile, "r");
+		if (!fPtr) {
+			fprintf(stderr, "open file (%s) error.", ifile);
+			exit(1);
+		}
+		fscanf(fPtr, "%d %d", &row, &col);
+		maze=(int *)malloc(row*col*sizeof(int));
+		for (i=0;i<row;++i) {
+			for (j=0;j<col;++j)
+				fscanf(fPtr, "%d", &maze[i*col+j]);
+		}
+		fclose(fPtr);
 	}
 	path(row, col, maze);
 	free(maze);
