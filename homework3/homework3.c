@@ -77,14 +77,13 @@ void poly_list_free(poly_node *p) {
 	}
 }
 int main(int argc, char *argv[]) {
-	char c, buf[BUFFER_SIZE], file_name[20];
+	char c, buf[BUFFER_SIZE], file_name[]="input3.txt";
 	int i, coef, expon, number=0;
 	FILE *fPtr;
 	poly_node p[2], *rear[2], *pc;
 	memset(p, 0, 2*sizeof(poly_node));
 	rear[0]=p;
 	rear[1]=p+1;
-	scanf("%s", file_name);
 	fPtr=fopen(file_name, "r");
 	if (!fPtr) {
 		fprintf(stderr, "open file (%s) error.", file_name);

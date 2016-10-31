@@ -104,9 +104,8 @@ void path(int row_size, int col_size, int *maze) {
 int main(int argc, char *argv[]) {
 	int row, col, i, j;
 	int *maze;
-	char c, ifile[20];
+	char c, ifile[]="input2-3.txt";
 	FILE *fPtr;
-	scanf("%s", ifile);
 	fPtr=fopen(ifile, "r");
 	if (!fPtr) {
 		fprintf(stderr, "open file (%s) error.", ifile);
